@@ -57,7 +57,7 @@ pipeline {
       steps {  
             sh "docker push ${DOCKERHUB1}:${currentBuild.number}"
             sh "docker push ${DOCKERHUB1}:latest"
-						sh "docker push ${DOCKERHUB2}:${currentBuild.number}"
+	    sh "docker push ${DOCKERHUB2}:${currentBuild.number}"
             sh "docker push ${DOCKERHUB2}:latest"
  
       }
@@ -88,13 +88,13 @@ pipeline {
         sh "git config --global user.email ${GITEMAIL}"
         sh "git config --global user.name ${GITNAME}"
         sh "sed -i 's@${DOCKERHUB1}:.*@${DOCKERHUB1}:${currentBuild.number}@g' deploy/deployment-wp.yml"
-	      sh "sed -i 's@${DOCKERHUB2}:.*@${DOCKERHUB2}:${currentBuild.number}@g' deploy/deployment-db.yml"
-				sh "git add ."
+	sh "sed -i 's@${DOCKERHUB2}:.*@${DOCKERHUB2}:${currentBuild.number}@g' deploy/deployment-db.yml"
+	sh "git add ."
         sh "git commit -m 'fix:${DOCKERHUB1} ${currentBuild.number} image versioning'"
         sh "git branch -M main"
         sh "git remote remove origin"
         sh "git remote add origin ${GITDEPADD}"
-        sh "git push -u origin main"
+        sh "git push -u origin master"
 
       }
       post {
